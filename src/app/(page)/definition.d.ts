@@ -1,1 +1,1 @@
-export type FileDownload = { filename: string; fileUrl: string; date: Date };
+export type FileDownload = { filename: string; date: Date };

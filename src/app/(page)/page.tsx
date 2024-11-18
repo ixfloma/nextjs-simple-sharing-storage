@@ -8,20 +8,27 @@ export default async function Home({
 }: {
   searchParams?: Promise<{
     sortby?: string;
+    query?: string;
   }>;
 }) {
   const params = await searchParams;
   if (!params?.sortby) redirect("/?sortby=date");
+  const query = params?.query || "";
   const listFile = handleGetListFile();
   return (
-    <div className="container mx-auto p-4">
+    <>
       <Sorter />
-      <h1 className="text-2xl font-bold mb-4">File List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {listFile.map((file, index) => (
-          <FileThumbnail key={index} file={file} />
-        ))}
+      <div className="container mx-auto p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {listFile
+            .filter((el) =>
+              query ? el.filename.toLowerCase().includes(query) : true
+            )
+            .map((file, index) => (
+              <FileThumbnail key={index} file={file} />
+            ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
